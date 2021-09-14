@@ -8,9 +8,9 @@ const {
     deleteTask
 } = require('../controllers/Task.controller')
 
-/* router.post('/task', auth.requerido, createTask); */
-router.get('/', auth.requerido, getTasks);
-router.put('/', auth.requerido, updateTask);
-router.delete('/', auth.requerido, deleteTask);
+router.post('/', auth, createTask);
+router.get('/', auth, getTasks);
+router.put('/:id', auth, updateTask);
+router.delete('/:id', auth, deleteTask);
 
 module.exports = router;
