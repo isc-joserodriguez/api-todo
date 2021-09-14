@@ -3,7 +3,7 @@ const mongoose = require('mongoose'),
     codeResponses = require('../config').codeResponses;
 
 const createTask = (req, res, next) => {
-    let task = new Task(req.body);
+    let task = new Task({ ...req.body, idUser: req.user.idUser });
     task.save().then((task, error) => {
         if (error) return res.status(400).send({
             ...codeResponses[400],
@@ -17,7 +17,7 @@ const createTask = (req, res, next) => {
 };
 
 const getTasks = (req, res, next) => {
-    Task.find({ userId: req.user.id=0 }).then((tasks, error) => {
+    Task.find({ idUser: req.user.idUser }).then((tasks, error) => {
         if (error) {
             return res.status(400).send({
                 ...codeResponses[400],
@@ -26,7 +26,6 @@ const getTasks = (req, res, next) => {
         } else if (tasks.length === 0) {
             return res.status(404).send({
                 ...codeResponses[404],
-                message: 'La consulta no arrojó resultados.',
             });
         }
         return res.status(200).send({
@@ -37,7 +36,7 @@ const getTasks = (req, res, next) => {
 }
 
 const updateTask = (req, res, next) => {
-    Categoria.findOneAndUpdate({ _id: req.params.id, idUser: req.idUser }, { $set: req.body }, { new: true }).then((updatedTask, error) => {
+    Task.findOneAndUpdate({ _id: req.params.id, idUser: req.user.idUser }, { $set: req.body }, { new: true }).then((updatedTask, error) => {
         if (error) {
             return res.status(400).send({
                 ...codeResponses[400],
@@ -45,8 +44,7 @@ const updateTask = (req, res, next) => {
             });
         } else if (!updatedTask) {
             return res.status(404).send({
-                ...codeResponses[404],
-                message: 'La consulta no arrojó resultados.',
+                ...codeResponses[404]
             });
         }
         return res.status(200).send({
@@ -57,7 +55,7 @@ const updateTask = (req, res, next) => {
 }
 
 const deleteTask = (req, res, next) => {
-    Task.findOneAndDelete({ _id: req.params.id, idUser: req.user.id }).then((task, error) => { //Elimina sólo los cancelados
+    Task.findOneAndDelete({ _id: req.params.id, idUser: req.user.idUser }).then((task, error) => { //Elimina sólo los cancelados
         if (error) {
             return res.status(400).send({
                 ...codeResponses[400],
@@ -65,8 +63,7 @@ const deleteTask = (req, res, next) => {
             });
         } else if (!task) {
             return res.status(404).send({
-                ...codeResponses[404],
-                message: 'La consulta no arrojó resultados.',
+                ...codeResponses[404]
             });
         }
         return res.status(200).send({

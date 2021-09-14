@@ -42,14 +42,14 @@ UserSchema.methods.generarJWT = function () {
     exp.setDate(today.getDate() + 60);
 
     return jwt.sign({
-        UserId: this._id,
+        idUser: this._id,
         exp: parseInt(exp.getTime() / 1000),
     }, secret);
 };
 
 UserSchema.methods.toAuthJSON = function () {
     return {
-        userId: this._id,
+        idUser: this._id,
         token: this.generarJWT()
     };
 };

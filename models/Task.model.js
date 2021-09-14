@@ -1,5 +1,4 @@
-const mongoose = require('mongoose'),
-    uniqueValidator = require('mongoose-unique-validator');
+const mongoose = require('mongoose');
 
 const TaskSchema = new mongoose.Schema({
     title: {
@@ -18,8 +17,5 @@ const TaskSchema = new mongoose.Schema({
 },
     { timestamps: true }
 );
-
-// usando plugin de validación para que no se repitan correos
-TaskSchema.plugin(uniqueValidator, { message: 'Ya existe ese Task' });
 
 mongoose.model('Task', TaskSchema);
