@@ -38,7 +38,27 @@ const login = (req, res, next) => {
     })(req, res, next);
 };
 
+const getUsers = (req, res, next) => {
+    User.find().then((users, error) => {
+        if (error) {
+            return res.status(400).send({
+                ...codeResponses[400],
+                message: error
+            });
+        } else if (users.length === 0) {
+            return res.status(404).send({
+                ...codeResponses[404],
+            });
+        }
+        return res.status(200).send({
+            ...codeResponses[200],
+            detail: users
+        });
+    }).catch(next);
+}
+
 module.exports = {
     signup,
-    login
+    login,
+    getUsers
 };
