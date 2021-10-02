@@ -5,8 +5,8 @@ const secret = require('../config').secret,
     uniqueValidator = require('mongoose-unique-validator');
 
 const UserSchema = new mongoose.Schema({
-    firstname: { type: String, required: true },
-    lastname: { type: String, required: true },
+    firstName: { type: String, required: true },
+    lastName: { type: String, required: true },
     email: {
         type: String,
         unique: true,
