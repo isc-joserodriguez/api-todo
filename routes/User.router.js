@@ -10,7 +10,7 @@ const {
 
 router.post('/login', login);
 router.post('/signup', signup);
-router.get('/getAll', getUsers);
+router.get('/getAll', auth, getUsers);
 router.get('/', getUser);
 
 module.exports = router;
