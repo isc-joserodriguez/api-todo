@@ -72,9 +72,43 @@ const getUser = (req, res, next) => {
     }).catch(next);
 }
 
+const updateUser = (req, res, next) => {
+    const { body } = req;
+    delete body.password
+    User.findByIdAndUpdate(req.user.idUser, { $set: body }, { new: true }).then((updatedUser, error) => {
+        if (error) {
+            return res.status(400).send({
+                ...codeResponses[400],
+                message: error
+            });
+        }
+        return res.status(200).send({
+            ...codeResponses[200],
+            detail: updatedUser
+        });
+    }).catch(next);
+}
+
+const deleteUser = (req, res, next) => {
+    User.findOneAndDelete({ _id: req.user.idUser }).then((user, error) => {
+        if (error) {
+            return res.status(400).send({
+                ...codeResponses[400],
+                message: error
+            });
+        }
+        return res.status(200).send({
+            ...codeResponses[200],
+            detail: user
+        });
+    }).catch(next);
+}
+
 module.exports = {
     signup,
     login,
     getUsers,
-    getUser
+    getUser,
+    updateUser,
+    deleteUser
 };
