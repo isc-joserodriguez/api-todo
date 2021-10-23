@@ -12,7 +12,7 @@ const TaskSchema = new mongoose.Schema({
         required: [true, 'no puede estar vacío'],
         index: true,
     },
-    dueDate: { type: Date, required: true },
+    dueDate: { type: Date, default: Date.now() },
     status: { type: Boolean, default: false }
 },
     { timestamps: true }

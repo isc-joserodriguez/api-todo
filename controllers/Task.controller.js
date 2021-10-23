@@ -35,6 +35,21 @@ const getTasks = (req, res, next) => {
     }).catch(next);
 }
 
+const getTask = (req, res, next) => {
+    Task.findOne({ idUser: req.user.idUser, _id: req.params.id }).then((task, error) => {
+        if (error) {
+            return res.status(400).send({
+                ...codeResponses[400],
+                message: error
+            });
+        }
+        return res.status(200).send({
+            ...codeResponses[200],
+            detail: task
+        });
+    }).catch(next);
+}
+
 const updateTask = (req, res, next) => {
     Task.findOneAndUpdate({ _id: req.params.id, idUser: req.user.idUser }, { $set: req.body }, { new: true }).then((updatedTask, error) => {
         if (error) {
@@ -75,6 +90,7 @@ const deleteTask = (req, res, next) => {
 
 module.exports = {
     createTask,
+    getTask,
     getTasks,
     updateTask,
     deleteTask
