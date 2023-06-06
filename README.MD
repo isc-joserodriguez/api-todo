@@ -11,4 +11,4 @@ SECRET = SuperSecret
 
 # Deployed
 
-[Heroku](https://todo-app-bs.herokuapp.com/v1)
+[Heroku](https://api-todo-zeta.vercel.app/v1)
